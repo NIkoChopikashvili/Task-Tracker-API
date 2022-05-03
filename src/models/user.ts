@@ -1,20 +1,18 @@
 import { UserProfile } from "../interfaces/user/user";
 import { getDb } from "../config/db-setup";
 
-export default class Client implements UserProfile {
+export default class User implements UserProfile {
   constructor(
     readonly email: string,
-    readonly nickname: string,
+    readonly name: string,
     readonly password: string,
-    readonly phone: string,
-    readonly personalId: string,
-    readonly activity: string
+    readonly phone: string
   ) {}
 
   async addUser(): Promise<string | unknown> {
-    return await getDb().db().collection("client").insertOne({
+    return await getDb().db().collection("TT_Users").insertOne({
       email: this.email,
-      nickname: this.nickname,
+      name: this.name,
       password: this.password,
       phone: this.phone,
       phoneVerify: false,
@@ -22,5 +20,15 @@ export default class Client implements UserProfile {
       verified: false,
       createdAt: new Date(),
     });
+  }
+
+  static async checkEmailExists(email: string): Promise<UserProfile | null> {
+    const user = await getDb()
+      .db()
+      .collection("TT_Users")
+      .findOne<UserProfile>({ email });
+
+    console.log(user);
+    return user;
   }
 }
