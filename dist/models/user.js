@@ -10,20 +10,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const db_setup_1 = require("../config/db-setup");
-class Client {
-    constructor(email, nickname, password, phone, personalId, activity) {
+class User {
+    constructor(email, name, password, phone) {
         this.email = email;
-        this.nickname = nickname;
+        this.name = name;
         this.password = password;
         this.phone = phone;
-        this.personalId = personalId;
-        this.activity = activity;
     }
     addUser() {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield (0, db_setup_1.getDb)().db().collection("client").insertOne({
+            return yield (0, db_setup_1.getDb)().db().collection("TT_Users").insertOne({
                 email: this.email,
-                nickname: this.nickname,
+                name: this.name,
                 password: this.password,
                 phone: this.phone,
                 phoneVerify: false,
@@ -33,5 +31,15 @@ class Client {
             });
         });
     }
+    static checkEmailExists(email) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const user = yield (0, db_setup_1.getDb)()
+                .db()
+                .collection("TT_Users")
+                .findOne({ email });
+            console.log(user);
+            return user;
+        });
+    }
 }
-exports.default = Client;
+exports.default = User;
