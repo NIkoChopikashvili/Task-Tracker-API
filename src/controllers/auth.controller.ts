@@ -23,7 +23,7 @@ export const userSignUp: RequestHandler = async (
     } catch (error: any) {
       throwError(error.message, 400);
     }
-    const { name, email, password, phone } = body;
+    const { name, email, password, phone, team } = body;
 
     const userEmail = await User.checkEmailExists(email);
 
@@ -32,7 +32,7 @@ export const userSignUp: RequestHandler = async (
     }
 
     const hashedPwd = await hashPassword(password);
-    const newUser = new User(email, name, hashedPwd, phone);
+    const newUser = new User(email, name, hashedPwd, phone, team);
     await newUser.addUser();
 
     const userData = await getDb()

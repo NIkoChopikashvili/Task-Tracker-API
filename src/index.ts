@@ -3,6 +3,7 @@ import { ErrorObject } from "./utils/errorHandling";
 import { initDb } from "./config/db-setup";
 
 import userAuthRoutes from "./routes/user/authRoutes";
+import taskRoutes from "./routes/taskRoutes/taskRoutes";
 
 import dotenv from "dotenv";
 
@@ -12,6 +13,7 @@ dotenv.config();
 app.use(express.json());
 
 app.use("/user", userAuthRoutes);
+app.use("/task", taskRoutes);
 
 app.use(
   (err: ErrorObject, req: Request, res: Response, next: NextFunction): any => {

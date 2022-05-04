@@ -6,7 +6,8 @@ export default class User implements UserProfile {
     readonly email: string,
     readonly name: string,
     readonly password: string,
-    readonly phone: string
+    readonly phone: string,
+    readonly team?: string
   ) {}
 
   async addUser(): Promise<string | unknown> {
@@ -19,6 +20,7 @@ export default class User implements UserProfile {
       emailVerify: false,
       verified: false,
       createdAt: new Date(),
+      team: this.team,
     });
   }
 

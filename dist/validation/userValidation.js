@@ -10,4 +10,5 @@ exports.userSignUpValidation = joi_1.default.object({
     password: joi_1.default.string().min(8).max(30).required(),
     phone: joi_1.default.number().required(),
     name: joi_1.default.string().required(),
+    team: joi_1.default.array(),
 });

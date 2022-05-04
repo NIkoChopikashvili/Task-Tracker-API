@@ -15,11 +15,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const db_setup_1 = require("./config/db-setup");
 const authRoutes_1 = __importDefault(require("./routes/user/authRoutes"));
+const taskRoutes_1 = __importDefault(require("./routes/taskRoutes/taskRoutes"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const app = (0, express_1.default)();
 dotenv_1.default.config();
 app.use(express_1.default.json());
 app.use("/user", authRoutes_1.default);
+app.use("/task", taskRoutes_1.default);
 app.use((err, req, res, next) => {
     let { statusCode, message } = err;
     if (!message)

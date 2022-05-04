@@ -11,6 +11,6 @@ export const throwError = (message: string, statusCode: number): never => {
 };
 
 export const catchError = (error: any, next: any): NextFunction => {
-  if (!error.message) error.message = "სერვერის შეცდომა";
+  if (!error.message) error.message = "Server Error";
   return next(error);
 };

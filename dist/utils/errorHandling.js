@@ -9,7 +9,7 @@ const throwError = (message, statusCode) => {
 exports.throwError = throwError;
 const catchError = (error, next) => {
     if (!error.message)
-        error.message = "სერვერის შეცდომა";
+        error.message = "Server Error";
     return next(error);
 };
 exports.catchError = catchError;

@@ -6,7 +6,8 @@ export interface UserProfile {
   password: string;
   phoneVerify?: boolean;
   verified?: boolean;
-  nickname?: string;
+  name?: string;
   location?: string;
   birthDate?: Date;
+  team?: string;
 }

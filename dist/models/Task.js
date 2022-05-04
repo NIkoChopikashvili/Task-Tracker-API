@@ -10,38 +10,25 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const db_setup_1 = require("../config/db-setup");
-class User {
-    constructor(email, name, password, phone, team) {
-        this.email = email;
-        this.name = name;
-        this.password = password;
-        this.phone = phone;
-        this.team = team;
+class Task {
+    constructor(title, description, status, assignedTo, deadline) {
+        this.title = title;
+        this.description = description;
+        this.status = status;
+        this.assignedTo = assignedTo;
+        this.deadline = deadline;
     }
-    addUser() {
+    addTask() {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield (0, db_setup_1.getDb)().db().collection("TT_Users").insertOne({
-                email: this.email,
-                name: this.name,
-                password: this.password,
-                phone: this.phone,
-                phoneVerify: false,
-                emailVerify: false,
-                verified: false,
+            return yield (0, db_setup_1.getDb)().db().collection("TT_Tasks").insertOne({
+                title: this.title,
+                description: this.description,
+                status: this.status,
+                assignedTo: this.assignedTo,
+                deadline: this.deadline,
                 createdAt: new Date(),
-                team: this.team,
             });
         });
     }
-    static checkEmailExists(email) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const user = yield (0, db_setup_1.getDb)()
-                .db()
-                .collection("TT_Users")
-                .findOne({ email });
-            console.log(user);
-            return user;
-        });
-    }
 }
-exports.default = User;
+exports.default = Task;
