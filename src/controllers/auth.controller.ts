@@ -75,7 +75,7 @@ export const userSignIn: RequestHandler = async (
 
 export const refreshToken: RequestHandler = async (req, res, next) => {
   try {
-    const token: any = req.body.token;
+    const token: string = req.body.token;
     let decodedToken;
     try {
       decodedToken = jwt.verify(token, jwtRefreshSecret) as JwtPayload;

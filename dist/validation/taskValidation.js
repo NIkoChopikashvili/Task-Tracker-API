@@ -10,4 +10,5 @@ exports.taskCreateValidation = joi_1.default.object({
     description: joi_1.default.string().required(),
     status: joi_1.default.string().required(),
     assignedTo: joi_1.default.array(),
+    deadline: joi_1.default.string(),
 });

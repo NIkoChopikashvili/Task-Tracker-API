@@ -1,5 +1,7 @@
 import { TaskInterface } from "../interfaces/task/task";
 import { getDb } from "../config/db-setup";
+import { ObjectId } from "mongodb";
+import { throwError } from "../utils/errorHandling";
 
 export default class Task implements TaskInterface {
   constructor(
@@ -19,5 +21,21 @@ export default class Task implements TaskInterface {
       deadline: this.deadline,
       createdAt: new Date(),
     });
+  }
+  static async getSingleTask(
+    taskId: string
+  ): Promise<[null, Error] | [TaskInterface, null]> {
+    try {
+      const task: any = await getDb()
+        .db()
+        .collection("TT_Tasks")
+        .findOne<TaskInterface>({ _id: new ObjectId(taskId) });
+      if (!task) {
+        throwError("No Task Found", 500);
+      }
+      return [task, null];
+    } catch (err: any) {
+      return [null, err];
+    }
   }
 }

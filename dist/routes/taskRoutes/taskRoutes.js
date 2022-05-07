@@ -28,7 +28,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const taskController = __importStar(require("../../controllers/task.controller"));
-const userAuth_1 = require("../../middleware/userAuth");
 const router = express_1.default.Router();
-router.post("/createTask", userAuth_1.isAuth, taskController.createTask);
+router.post("/createTask", taskController.createTask);
 exports.default = router;

@@ -26,10 +26,10 @@ const isAuth = (req, res, next) => {
                 (0, errorHandling_1.throwError)("you need to be logged in", 400);
             }
             else {
-                if (typeof decodedToken !== "string") {
-                    req.userId = decodedToken.userId;
-                    req.email = decodedToken.email;
-                }
+                // if (typeof decodedToken !== "string") {
+                //   req.userId = decodedToken.userId;
+                //   req.email = decodedToken.email;
+                // }
                 next();
             }
         }

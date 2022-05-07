@@ -5,4 +5,5 @@ export const taskCreateValidation = Joi.object({
   description: Joi.string().required(),
   status: Joi.string().required(),
   assignedTo: Joi.array(),
+  deadline: Joi.string(),
 });

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createTask = void 0;
+exports.getSingleTask = exports.createTask = void 0;
 const db_setup_1 = require("../config/db-setup");
 const errorHandling_1 = require("../utils/errorHandling");
 const taskValidation_1 = require("../validation/taskValidation");
@@ -42,3 +42,17 @@ const createTask = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.createTask = createTask;
+const getSingleTask = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const taskId = req.body.taskId;
+        const [task, error] = yield Task_1.default.getSingleTask(taskId);
+        if (error) {
+            (0, errorHandling_1.throwError)(error.message, 500);
+        }
+        return res.status(200).json({ task });
+    }
+    catch (err) {
+        (0, errorHandling_1.catchError)(err, next);
+    }
+});
+exports.getSingleTask = getSingleTask;

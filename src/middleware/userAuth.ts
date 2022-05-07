@@ -19,10 +19,10 @@ export const isAuth: RequestHandler = (req, res, next) => {
       if (!decodedToken) {
         throwError("you need to be logged in", 400);
       } else {
-        if (typeof decodedToken !== "string") {
-          req.userId = decodedToken.userId;
-          req.email = decodedToken.email;
-        }
+        // if (typeof decodedToken !== "string") {
+        //   req.userId = decodedToken.userId;
+        //   req.email = decodedToken.email;
+        // }
         next();
       }
     }

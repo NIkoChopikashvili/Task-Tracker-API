@@ -34,3 +34,20 @@ export const createTask: RequestHandler = async (
     catchError(err, next);
   }
 };
+
+export const getSingleTask: RequestHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const taskId: string = req.body.taskId;
+    const [task, error] = await Task.getSingleTask(taskId);
+    if (error) {
+      throwError(error.message, 500);
+    }
+    return res.status(200).json({ task });
+  } catch (err) {
+    catchError(err, next);
+  }
+};

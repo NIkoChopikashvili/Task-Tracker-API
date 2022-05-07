@@ -10,6 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const db_setup_1 = require("../config/db-setup");
+const mongodb_1 = require("mongodb");
+const errorHandling_1 = require("../utils/errorHandling");
 class Task {
     constructor(title, description, status, assignedTo, deadline) {
         this.title = title;
@@ -28,6 +30,23 @@ class Task {
                 deadline: this.deadline,
                 createdAt: new Date(),
             });
+        });
+    }
+    static getSingleTask(taskId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const task = yield (0, db_setup_1.getDb)()
+                    .db()
+                    .collection("TT_Tasks")
+                    .findOne({ _id: new mongodb_1.ObjectId(taskId) });
+                if (!task) {
+                    (0, errorHandling_1.throwError)("No Task Found", 500);
+                }
+                return [task, null];
+            }
+            catch (err) {
+                return [null, err];
+            }
         });
     }
 }

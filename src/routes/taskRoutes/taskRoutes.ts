@@ -4,6 +4,6 @@ import { isAuth } from "../../middleware/userAuth";
 
 const router = express.Router();
 
-router.post("/createTask", isAuth, taskController.createTask);
+router.post("/createTask", taskController.createTask);
 
 export default router;
