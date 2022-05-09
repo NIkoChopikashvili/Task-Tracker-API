@@ -18,7 +18,7 @@ app.use("/task", taskRoutes);
 app.use(
   (err: ErrorObject, req: Request, res: Response, next: NextFunction): any => {
     let { statusCode, message } = err;
-    if (!message) message = "შეცდომა სერვერზე";
+    if (!message) message = "Server Error";
     if (!statusCode) statusCode = 500;
     return res.status(statusCode).json({ message });
   }
