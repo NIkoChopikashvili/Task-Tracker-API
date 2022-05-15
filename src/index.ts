@@ -1,5 +1,5 @@
 import express, { Express, Response, NextFunction, Request } from "express";
-import { ErrorObject } from "./utils/errorHandling";
+import { catchError, ErrorObject, throwError } from "./utils/errorHandling";
 import { initDb } from "./config/db-setup";
 
 import userAuthRoutes from "./routes/user/authRoutes";
@@ -23,6 +23,28 @@ app.use(
     return res.status(statusCode).json({ message });
   }
 );
+
+// page not found error handling  middleware
+app.use("*", (req: Request, res: Response, next: NextFunction) => {
+  const error = {
+    status: 404,
+    message: "Endpoint not found",
+  };
+  next(error);
+});
+
+// global error handling middleware
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  console.log(err);
+  const status = err.status || 500;
+  const message = err.message || "Server Error";
+  const data = err.data || null;
+  res.status(status).json({
+    type: "error",
+    message,
+    data,
+  });
+});
 
 initDb((err: Record<string, unknown>) => {
   if (err) {

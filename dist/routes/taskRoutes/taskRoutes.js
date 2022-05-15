@@ -29,5 +29,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const taskController = __importStar(require("../../controllers/task.controller"));
 const router = express_1.default.Router();
+//POST
 router.post("/createTask", taskController.createTask);
+//GET
+router.get("/getTask", taskController.getSingleTask);
+//DELETE
+router.delete("/deleteTask", taskController.deleteTask);
 exports.default = router;

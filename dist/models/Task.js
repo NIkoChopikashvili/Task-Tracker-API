@@ -49,5 +49,20 @@ class Task {
             }
         });
     }
+    static deleteTask(taskId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const deletedTask = yield (0, db_setup_1.getDb)()
+                    .db()
+                    .collection("TT_Tasks")
+                    .deleteOne({ _id: new mongodb_1.ObjectId(taskId) });
+                return [deletedTask.deletedCount, null];
+            }
+            catch (err) {
+                console.log(err);
+                return [null, err];
+            }
+        });
+    }
 }
 exports.default = Task;

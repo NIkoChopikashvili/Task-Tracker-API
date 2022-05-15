@@ -41,12 +41,33 @@ export const getSingleTask: RequestHandler = async (
   next: NextFunction
 ) => {
   try {
-    const taskId: string = req.body.taskId;
-    const [task, error] = await Task.getSingleTask(taskId);
+    const id: any = req.query.id;
+    const [task, error] = await Task.getSingleTask(id);
     if (error) {
       throwError(error.message, 500);
     }
     return res.status(200).json({ task });
+  } catch (err) {
+    catchError(err, next);
+  }
+};
+
+export const deleteTask: RequestHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const id: any = req.query.id;
+    const [deletedCount, error] = await Task.deleteTask(id);
+    if (error) {
+      throwError(error.message, 500);
+    } else if (deletedCount !== 1) {
+      return res
+        .status(500)
+        .json({ message: "Could not delete task. Try Again!." });
+    }
+    return res.status(200).json({ message: "Task deleted successfully" });
   } catch (err) {
     catchError(err, next);
   }

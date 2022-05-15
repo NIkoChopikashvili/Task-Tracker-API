@@ -25,10 +25,30 @@ app.use("/task", taskRoutes_1.default);
 app.use((err, req, res, next) => {
     let { statusCode, message } = err;
     if (!message)
-        message = "შეცდომა სერვერზე";
+        message = "Server Error";
     if (!statusCode)
         statusCode = 500;
     return res.status(statusCode).json({ message });
+});
+// page not found error handling  middleware
+app.use("*", (req, res, next) => {
+    const error = {
+        status: 404,
+        message: "Endpoint not found",
+    };
+    next(error);
+});
+// global error handling middleware
+app.use((err, req, res, next) => {
+    console.log(err);
+    const status = err.status || 500;
+    const message = err.message || "Server Error";
+    const data = err.data || null;
+    res.status(status).json({
+        type: "error",
+        message,
+        data,
+    });
 });
 (0, db_setup_1.initDb)((err) => {
     if (err) {

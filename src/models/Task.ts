@@ -38,4 +38,18 @@ export default class Task implements TaskInterface {
       return [null, err];
     }
   }
+  static async deleteTask(
+    taskId: string
+  ): Promise<[null, Error] | [number, null]> {
+    try {
+      const deletedTask: any = await getDb()
+        .db()
+        .collection("TT_Tasks")
+        .deleteOne({ _id: new ObjectId(taskId) });
+      return [deletedTask.deletedCount, null];
+    } catch (err: any) {
+      console.log(err);
+      return [null, err];
+    }
+  }
 }
