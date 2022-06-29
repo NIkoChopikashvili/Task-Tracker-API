@@ -1,5 +1,6 @@
 import { UserProfile } from "../interfaces/user/user";
 import { getDb } from "../config/db-setup";
+import { ObjectId } from "mongodb";
 
 export default class User implements UserProfile {
   constructor(
@@ -30,7 +31,42 @@ export default class User implements UserProfile {
       .collection("TT_Users")
       .findOne<UserProfile>({ email });
 
-    console.log(user);
     return user;
+  }
+
+  static async userProfile(userId: string): Promise<UserProfile | null> {
+    const userProfile = await getDb()
+      .db()
+      .collection("TT_Users")
+      .findOne<UserProfile>({ _id: new ObjectId(userId) });
+
+    return userProfile;
+  }
+
+  static async verifyEmail(
+    email: string
+  ): Promise<Array<number | null | unknown>> {
+    try {
+      await getDb()
+        .db()
+        .collection("TT_User")
+        .updateOne({ email }, { $set: { emailVerify: true } });
+      return ["success", null];
+    } catch (error) {
+      return [null, error];
+    }
+  }
+
+  static async findEmailCode(email: string, emailCode: number): Promise<any> {
+    try {
+      const code = await getDb()
+        .db()
+        .collection("TT_User")
+        .findOne({ email, emailCode });
+      return [code.emailCode, null];
+    } catch (err) {
+      console.log(err);
+      return [null, err];
+    }
   }
 }

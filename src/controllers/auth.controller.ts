@@ -1,4 +1,4 @@
-import User from "../models/User";
+import User from "../models/user";
 import { throwError, catchError } from "../utils/errorHandling";
 import { hashPassword, comparePassword } from "../utils/hashing/hashPassword";
 import { getDb } from "../config/db-setup";
@@ -92,6 +92,33 @@ export const refreshToken: RequestHandler = async (req, res, next) => {
 
     const accessToken = generateJwt(userExists, jwtSecret);
     return res.status(200).json({ token: accessToken });
+  } catch (err) {
+    catchError(err, next);
+  }
+};
+
+export const verifyEmail: RequestHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { email, emailCode } = req.body;
+
+    const [userCode, error] = await User.findEmailCode(email, emailCode);
+    if (error) {
+      throwError("Could not verify email", 400);
+    }
+    if (!userCode) {
+      throwError("Code that you entered is incorrect", 400);
+    }
+    if (userCode) {
+      const [, error] = await User.verifyEmail(email);
+      if (error) {
+        throwError("Could not verify email", 400);
+      }
+    }
+    return res.status(200).json({ message: "Email Verified", status: 200 });
   } catch (err) {
     catchError(err, next);
   }

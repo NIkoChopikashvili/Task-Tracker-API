@@ -1,15 +1,13 @@
 import mongodb from "mongodb";
 import dotenv from "dotenv";
-// dotenv.config({
-//   path: path.join(path.dirname(require.main!.filename), "../.env"),
-// });
+
 dotenv.config();
+
 const MongoClient = mongodb.MongoClient;
 
 const mongoDbUrl: any = process.env.MONGODB_URI;
 
 let _db: mongodb.MongoClient;
-// mongodb+srv://admin:mgfFa6nDMBs24Aox@money-market.dvijb.mongodb.net/money_market?retryWrites=true&w=majority
 
 export const initDb = (callback: any) => {
   if (_db) {
@@ -22,6 +20,7 @@ export const initDb = (callback: any) => {
       callback(null, _db);
     })
     .catch((err) => {
+      console.log("err", err);
       callback(err);
     });
 };
